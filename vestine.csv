@@ -1,0 +1,39 @@
+lc_uuid,standard,opis
+0edaa02c-0e8e-5b84-a494-665b641dba4b,8.EE.B.5,Graph proportional relationships
+c7ca6f31-ac92-53a4-aa20-6cd3ccb6b797,8.EE.B.5,Interpret the slope of the graph of a proportional relationship as the unit rate
+fbbff3cd-ef58-5383-ab5a-94c445fcd933,8.EE.B.5,Compare two proportional relationships represented in different ways
+650c0c11-6bac-5dfd-b42b-93aef8079aef,8.EE.B.6,Use similar triangles to explain why the slope of a line graphed on the coordinate plane is consistent
+c931c413-a900-5840-9634-597c5ba0dfdc,8.EE.B.6,Write the equation y = mx for a line graphed through the origin
+3e7febf4-233b-564a-8db2-a612fc5e3de5,8.EE.B.6,Write the equation y = mx + b for a line graphed not through the origin
+f50b9fed-bce3-5365-a39c-188686c9b2c1,8.F.A.1,Identify a relationship as a function if it assigns exactly one output to every input
+d37fc186-0516-5779-9949-4b14f28cafa2,8.F.A.1,"Identify a relationship as a function if its graph is the set of ordered pairs, (x, y), consisting of an input, x, and its corresponding output, y"
+74b65cd2-9ddc-5362-a276-2d6dfa20b0bd,8.F.A.2,Compare properties of two functions each represented in a different way
+646a03d8-7880-5331-8ac5-ab4912d891ca,8.F.A.3,Identify the equation y = mx + b as representing a linear function
+19cec163-412b-5bb2-bddf-f54d76cbd37a,8.F.A.3,Identify the graph of a line as representing a linear function
+469afc42-3bc5-5b32-b937-e05b8bdcbd2e,8.F.A.3,Recognize and give examples of functions that are (or are not) linear
+dab9e9b0-faa3-5080-9f2e-ac82c0ba0346,8.F.B.4,Model a linear relationship between two quantities with a function
+1944c542-6fe1-5883-beee-d6fe87cc5e7f,8.F.B.4,Determine the rate of change of a function from a mathematical context presented with a verbal description
+e1ce9802-e05b-541d-ae86-641087a49faf,8.F.B.4,Determine the rate of change of a function from a mathematical context presented in a table or graph
+dd4d95c3-4e5b-511f-b490-f0bf52638e99,8.F.B.4,Determine the rate of change of a function from a real-world context presented with a verbal description
+c6f0747b-6ee8-5e35-95d9-d25d8f5debc6,8.F.B.4,Determine the rate of change of a function from a real-world context presented in a table or graph
+411f2a23-973d-5338-9a16-93f6c252b221,8.F.B.4,Determine the initial value of a function from a mathematical context presented with a verbal description
+5f3a9252-5252-54ed-9c00-f4c910b3b9a4,8.F.B.4,Determine the initial value of a function from a mathematical context presented in a table or graph
+c8e759d8-4ed5-597d-a8ae-6a20147a354d,8.F.B.4,Determine the initial value of a function from a real-world context presented with a verbal description
+443d082c-df90-5586-8d15-fc375f4a8b4f,8.F.B.4,Determine the initial value of a function from a real-world context presented in a table or graph
+b2a9431b-e28d-5c7c-8a46-e0012eef91b8,8.F.B.4,Interpret the rate of change of a linear function in the context of the situation it models
+6c340f89-4534-5ed4-acee-bb1e959071d4,8.F.B.4,Interpret the initial value of a linear function in the context of the situation it models
+13cc406a-cb0c-5917-9440-9be51de9017f,8.F.B.5,Qualitatively describe the relationship between two quantities by analyzing the graph of a function that relates the two quantities
+f0af8f05-3a5f-5ea0-a04b-f29e2ae8e2a9,8.F.B.5,Sketch by hand a graph that exhibits particular qualitative features that are described verbally
+da9534b0-d837-5e37-ae66-d506a2231d78,HSF-IF.B.6,Calculate the average rate of change over a specified interval of a function presented symbolically or in a table
+ec373d80-fbd7-58c3-b8c2-d71abefa9039,HSF-IF.B.6,Estimate the average rate of change over a specified interval of a function from the function's graph
+5409556b-2f94-54b7-8d77-4ce5d3e86e27,HSF-IF.B.6,"Interpret, in context, the average rate of change of a function over a specified interval"
+5ee603c3-6430-5a02-92ef-bc00f7cb1a6d,HSF-IF.C.7.a,"Graph linear functions from mathematical contexts, showing intercepts"
+67ef0ce9-3dbe-53c0-ac19-9baa91cba7bd,HSF-IF.C.7.a,"Graph linear functions from real-world contexts, showing intercepts"
+646e93bc-23b5-57bc-9e03-b7ae4f4ef83c,HSF-LE.A.1.b,Describe situations where one quantity changes at a constant rate per unit interval as compared to another
+35102d70-6aea-505b-85c7-fdff4ceb58af,HSF-LE.A.2,"Construct a linear function for a mathematical context given an arithmetic sequence, a graph, a description of a relationship, or two input-output pairs (include reading these from a table)"
+f206886c-6628-5dbd-a241-acc362587b88,HSF-LE.A.2,"Construct a linear function for a real-world context given an arithmetic sequence, a graph, a description of a relationship, or two input-output pairs (include reading these from a table)"
+0481241f-0379-5894-af6e-94c154b5c75c,HSF-LE.A.2,Construct a linear function for a real-world context given a graph of the relationship
+31441479-cfd2-5fe3-8bee-9c0bfd8c6157,HSF-LE.A.2,Construct a linear function for a real-world context given the slope of the line and a point
+b1c76477-8b9c-5600-a773-80d468f1828b,HSF-LE.A.2,Construct a linear function for a real-world context given two sets of integer coordinates
+292473be-87e5-56b0-b12f-1c7d1f4c22f5,HSF-LE.A.2,Construct a linear function for a real-world context that can be modeled with a horizontal line
+b175a42f-27b6-525a-b33a-6e518abb2c73,HSF-LE.A.2,Construct a linear function for a real-world context that can be modeled with a vertical line

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<script src="https://unpkg.com/vis-network@9.1.9/standalone/umd/vis-network.min.js"></script>
+<style>
+  body { margin:0; font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; color:#1f2328; }
+  #wrap { display:flex; height:676px; border:1px solid #d0d7de; border-radius:8px; overflow:hidden; }
+  #mreza { flex:1; position:relative; background:#fff; }
+  #panel { width:330px; border-left:1px solid #d0d7de; padding:14px 16px; overflow-y:auto; background:#f6f8fa; font-size:13px; line-height:1.45; }
+  #traka { position:absolute; top:8px; left:10px; z-index:5; background:rgba(255,255,255,.92); padding:6px 10px; border:1px solid #d0d7de; border-radius:6px; font-size:12px; display:flex; gap:14px; align-items:center; }
+  .leg { display:inline-block; width:11px; height:11px; border-radius:3px; margin-right:4px; vertical-align:-1px; }
+  h3 { margin:0 0 4px; font-size:17px; }
+  h4 { margin:14px 0 4px; font-size:12px; text-transform:uppercase; letter-spacing:.04em; color:#57606a; }
+  .znak { display:inline-block; padding:1px 7px; border-radius:10px; font-size:11px; margin-right:4px; background:#ddf4ff; color:#0969da; }
+  .znak.siv { background:#eaeef2; color:#57606a; }
+  ul { margin:2px 0; padding-left:18px; }
+  li { margin:2px 0; }
+  a.cvor { color:#0969da; cursor:pointer; text-decoration:none; font-weight:600; }
+  a.cvor:hover { text-decoration:underline; }
+  .nap { color:#57606a; font-size:11.5px; }
+  .uuid { font-family: ui-monospace, Menlo, monospace; font-size:11px; color:#57606a; word-break:break-all; }
+</style></head>
+<body>
+<div id="wrap">
+  <div id="mreza">
+    <div id="platno" style="position:absolute;inset:0"></div>
+    <div id="traka">
+      <span><span class="leg" style="background:#1f6feb"></span>jezgro</span>
+      <span><span class="leg" style="background:#d0d7de"></span>kontekst</span>
+      <span><span class="leg" style="background:#fff8c5;border:1px solid #d4a72c"></span>veština</span>
+      <label><input type="checkbox" id="prikaziVestine"> Prikaži veštine</label>
+      <button id="uklopi">Uklopi</button>
+    </div>
+  </div>
+  <div id="panel"></div>
+</div>
+<script>
+const P = {"standardi": [{"id": "7.G.A.1", "razred": "7", "jezgro": false, "opis": "Solve problems involving scale drawings of geometric figures, including computing actual lengths and areas from a scale drawing and reproducing a scale drawing at a different scale.", "uuid": "6b9c342f-d7cc-11e8-824f-0242ac160002", "nivo": 0, "vestine": [], "miskoncepcije": []}, {"id": "7.RP.A.2", "razred": "7", "jezgro": false, "opis": "Recognize and represent proportional relationships between quantities.", "uuid": "6b9d7951-d7cc-11e8-824f-0242ac160002", "nivo": 0, "vestine": [], "miskoncepcije": []}, {"id": "8.EE.B.5", "razred": "8", "jezgro": true, "opis": "Graph proportional relationships, interpreting the unit rate as the slope of the graph. Compare two different proportional relationships represented in different ways.", "uuid": "6b9f8362-d7cc-11e8-824f-0242ac160002", "nivo": 1, "vestine": [{"id": "lc_fbbff3cd-ef58-5383-ab5a-94c445fcd933", "opis": "Compare two proportional relationships represented in different ways"}, {"id": "lc_0edaa02c-0e8e-5b84-a494-665b641dba4b", "opis": "Graph proportional relationships"}, {"id": "lc_c7ca6f31-ac92-53a4-aa20-6cd3ccb6b797", "opis": "Interpret the slope of the graph of a proportional relationship as the unit rate"}], "miskoncepcije": []}, {"id": "8.EE.B.6", "razred": "8", "jezgro": true, "opis": "Use similar triangles to explain why the slope m is the same between any two distinct points on a non-vertical line in the coordinate plane; derive the equation y = mx for a line through the origin and the equation y = mx + b for a line intercepting the vertical axis at b.", "uuid": "6b9fff6f-d7cc-11e8-824f-0242ac160002", "nivo": 1, "vestine": [{"id": "lc_650c0c11-6bac-5dfd-b42b-93aef8079aef", "opis": "Use similar triangles to explain why the slope of a line graphed on the coordinate plane is consistent"}, {"id": "lc_3e7febf4-233b-564a-8db2-a612fc5e3de5", "opis": "Write the equation y = mx + b for a line graphed not through the origin"}, {"id": "lc_c931c413-a900-5840-9634-597c5ba0dfdc", "opis": "Write the equation y = mx for a line graphed through the origin"}], "miskoncepcije": [{"opis": "Believes subtracting a positive number from a negative number makes the answer less negative", "izvor": "Eedi; matched construct: Work out the equation of a line given two points on the line, one of which is the y-intercept"}, {"opis": "Believes a downward line has a positive gradient", "izvor": "Eedi; matched construct: Know that the hypotenuses of two similar right triangles constructed along the same line will share the same slope"}, {"opis": "Believes that the y intercept is (0, y) where y is any y coordinate on the line", "izvor": "Eedi; matched construct: Work out the equation of a line given two points on the line, one of which is the y-intercept"}, {"opis": "Believes the y intercept is given by the difference between the y coordinates of any two points on the line", "izvor": "Eedi; matched construct: Work out the equation of a line given two points on the line, one of which is the y-intercept"}, {"opis": "Believes that the y intercept is where the y coordinate is 0", "izvor": "Eedi; matched construct: Work out the equation of a line given two points on the line, one of which is the y-intercept"}, {"opis": "Believes gradient = change in x/change in y", "izvor": "Eedi; matched construct: Know that the hypotenuses of two similar right triangles constructed along the same line will share the same slope"}, {"opis": "Believes an upward line has a negative gradient", "izvor": "Eedi; matched construct: Know that the hypotenuses of two similar right triangles constructed along the same line will share the same slope"}, {"opis": "Thinks the scale factor is the gradient when using similar triangles", "izvor": "Eedi; matched construct: Know that the hypotenuses of two similar right triangles constructed along the same line will share the same slope"}, {"opis": "Believes gradient = change in x", "izvor": "Eedi; matched construct: Work out the equation of a line given two points on the line, one of which is the y-intercept"}, {"opis": "Believes gradient = change in y", "izvor": "Eedi; matched construct: Work out the equation of a line given two points on the line, one of which is the y-intercept"}, {"opis": "Believes similar triangles have different slopes", "izvor": "Eedi; matched construct: Know that the hypotenuses of two similar right triangles constructed along the same line will share the same slope"}, {"opis": "Believes the gradient of corresponding sides in similar triangles is multiplied by the scale factor", "izvor": "Eedi; matched construct: Know that the hypotenuses of two similar right triangles constructed along the same line will share the same slope"}, {"opis": "When finding the gradient from 2 points, believes they use absolute values of the changes in x and y, so all gradients are positive", "izvor": "Eedi; matched construct: Work out the equation of a line given two points on the line, one of which is the y-intercept"}]}, {"id": "8.F.A.1", "razred": "8", "jezgro": true, "opis": "Understand that a function is a rule that assigns to each input exactly one output. The graph of a function is the set of ordered pairs consisting of an input and the corresponding output.", "uuid": "6b9c4367-d7cc-11e8-824f-0242ac160002", "nivo": 1, "vestine": [{"id": "lc_f50b9fed-bce3-5365-a39c-188686c9b2c1", "opis": "Identify a relationship as a function if it assigns exactly one output to every input"}, {"id": "lc_d37fc186-0516-5779-9949-4b14f28cafa2", "opis": "Identify a relationship as a function if its graph is the set of ordered pairs, (x, y), consisting of an input, x, and its corresponding output, y"}], "miskoncepcije": []}, {"id": "8.F.A.2", "razred": "8", "jezgro": true, "opis": "Compare properties of two functions each represented in a different way (algebraically, graphically, numerically in tables, or by verbal descriptions).", "uuid": "6b9d816d-d7cc-11e8-824f-0242ac160002", "nivo": 2, "vestine": [{"id": "lc_74b65cd2-9ddc-5362-a276-2d6dfa20b0bd", "opis": "Compare properties of two functions each represented in a different way"}], "miskoncepcije": []}, {"id": "8.F.A.3", "razred": "8", "jezgro": true, "opis": "Interpret the equation y = mx + b as defining a linear function, whose graph is a straight line; give examples of functions that are not linear.", "uuid": "6b9e5396-d7cc-11e8-824f-0242ac160002", "nivo": 3, "vestine": [{"id": "lc_646a03d8-7880-5331-8ac5-ab4912d891ca", "opis": "Identify the equation y = mx + b as representing a linear function"}, {"id": "lc_19cec163-412b-5bb2-bddf-f54d76cbd37a", "opis": "Identify the graph of a line as representing a linear function"}, {"id": "lc_469afc42-3bc5-5b32-b937-e05b8bdcbd2e", "opis": "Recognize and give examples of functions that are (or are not) linear"}], "miskoncepcije": [{"opis": "Believes that terms can be combined regardless of their variables or indices, including constants", "izvor": "Eedi; matched construct: Express a function machine as a linear equation"}, {"opis": "Thinks the fraction bar only goes under the constant even when the whole expression needs dividing", "izvor": "Eedi; matched construct: Express a function machine as a linear equation"}, {"opis": "When using a function machine, confuses the input and the output", "izvor": "Eedi; matched construct: Express a function machine as a linear equation"}]}, {"id": "8.F.B.4", "razred": "8", "jezgro": true, "opis": "Construct a function to model a linear relationship between two quantities. Determine the rate of change and initial value of the function from a description of a relationship or from two (x, y) values, including reading these from a table or from a graph. Interpret the rate of change and initial value of a linear function in terms of the situation it models, and in terms of its graph or a table of values.", "uuid": "6b9ef36a-d7cc-11e8-824f-0242ac160002", "nivo": 4, "vestine": [{"id": "lc_5f3a9252-5252-54ed-9c00-f4c910b3b9a4", "opis": "Determine the initial value of a function from a mathematical context presented in a table or graph"}, {"id": "lc_411f2a23-973d-5338-9a16-93f6c252b221", "opis": "Determine the initial value of a function from a mathematical context presented with a verbal description"}, {"id": "lc_443d082c-df90-5586-8d15-fc375f4a8b4f", "opis": "Determine the initial value of a function from a real-world context presented in a table or graph"}, {"id": "lc_c8e759d8-4ed5-597d-a8ae-6a20147a354d", "opis": "Determine the initial value of a function from a real-world context presented with a verbal description"}, {"id": "lc_e1ce9802-e05b-541d-ae86-641087a49faf", "opis": "Determine the rate of change of a function from a mathematical context presented in a table or graph"}, {"id": "lc_1944c542-6fe1-5883-beee-d6fe87cc5e7f", "opis": "Determine the rate of change of a function from a mathematical context presented with a verbal description"}, {"id": "lc_c6f0747b-6ee8-5e35-95d9-d25d8f5debc6", "opis": "Determine the rate of change of a function from a real-world context presented in a table or graph"}, {"id": "lc_dd4d95c3-4e5b-511f-b490-f0bf52638e99", "opis": "Determine the rate of change of a function from a real-world context presented with a verbal description"}, {"id": "lc_6c340f89-4534-5ed4-acee-bb1e959071d4", "opis": "Interpret the initial value of a linear function in the context of the situation it models"}, {"id": "lc_b2a9431b-e28d-5c7c-8a46-e0012eef91b8", "opis": "Interpret the rate of change of a linear function in the context of the situation it models"}, {"id": "lc_dab9e9b0-faa3-5080-9f2e-ac82c0ba0346", "opis": "Model a linear relationship between two quantities with a function"}], "miskoncepcije": [{"opis": "Believes the rate of change represents the initial fixed value in a linear relationship", "izvor": "Eedi; matched construct: Determine the initial value of a function from a real life context presented in a table or graph"}, {"opis": "Confuses variable and fixed expenses", "izvor": "Eedi; matched construct: Determine the initial value of a function from a real life context presented with a verbal description"}, {"opis": "Believes the initial fixed value on a graph is the highest value on the y-axis", "izvor": "Eedi; matched construct: Determine the initial value of a function from a real life context presented in a table or graph"}, {"opis": "Confuses original and additional amounts in proportion problems", "izvor": "Eedi; matched construct: Determine the initial value of a function from a real life context presented in a table or graph"}, {"opis": "Confuses the slope with the initial value on a graph", "izvor": "Eedi; matched construct: Determine the initial value of a function from a real life context presented in a table or graph"}, {"opis": "Thinks the 'initial fixed value' on a graph is at x=1", "izvor": "Eedi; matched construct: Determine the initial value of a function from a real life context presented in a table or graph"}, {"opis": "Assumes that values in a table are consecutive", "izvor": "Eedi; matched construct: Determine the initial value of a function from a real life context presented in a table or graph"}, {"opis": "Thinks pages read per day equals total pages", "izvor": "Eedi; matched construct: Determine the initial value of a function from a real life context presented with a verbal description"}]}, {"id": "8.F.B.5", "razred": "8", "jezgro": true, "opis": "Describe qualitatively the functional relationship between two quantities by analyzing a graph. Sketch a graph that exhibits the qualitative features of a function that has been described verbally.", "uuid": "6b9f86d5-d7cc-11e8-824f-0242ac160002", "nivo": 4, "vestine": [{"id": "lc_13cc406a-cb0c-5917-9440-9be51de9017f", "opis": "Qualitatively describe the relationship between two quantities by analyzing the graph of a function that relates the two quantities"}, {"id": "lc_f0af8f05-3a5f-5ea0-a04b-f29e2ae8e2a9", "opis": "Sketch by hand a graph that exhibits particular qualitative features that are described verbally"}], "miskoncepcije": []}, {"id": "8.G.A.5", "razred": "8", "jezgro": false, "opis": "Use informal arguments to establish facts about the angle sum and exterior angle of triangles, about the angles created when parallel lines are cut by a transversal, and the angle-angle criterion for similarity of triangles.", "uuid": "6b9f89a0-d7cc-11e8-824f-0242ac160002", "nivo": 0, "vestine": [], "miskoncepcije": []}, {"id": "HSA-CED.A.2", "razred": "HS", "jezgro": false, "opis": "Create equations in two or more variables to represent relationships between quantities; graph equations on coordinate axes with labels and scales.", "uuid": "6b9d8f41-d7cc-11e8-824f-0242ac160002", "nivo": 5, "vestine": [], "miskoncepcije": []}, {"id": "HSF-BF.A.1.a", "razred": "HS", "jezgro": false, "opis": "Determine an explicit expression, a recursive process, or steps for calculation from a context.", "uuid": "6ba15907-d7cc-11e8-824f-0242ac160002", "nivo": 5, "vestine": [], "miskoncepcije": []}, {"id": "HSF-BF.A.2", "razred": "HS", "jezgro": false, "opis": "Write arithmetic and geometric sequences both recursively and with an explicit formula, use them to model situations, and translate between the two forms.", "uuid": "6b9d974a-d7cc-11e8-824f-0242ac160002", "nivo": 5, "vestine": [], "miskoncepcije": []}, {"id": "HSF-IF.A.1", "razred": "HS", "jezgro": false, "opis": "Understand that a function from one set (domain) to another (range) assigns to each element of the domain exactly one element of the range; function notation f(x).", "uuid": "6b9c6130-d7cc-11e8-824f-0242ac160002", "nivo": 0, "vestine": [], "miskoncepcije": []}, {"id": "HSF-IF.B.6", "razred": "HS", "jezgro": true, "opis": "Calculate and interpret the average rate of change of a function (presented symbolically or as a table) over a specified interval. Estimate the rate of change from a graph.", "uuid": "6ba00b75-d7cc-11e8-824f-0242ac160002", "nivo": 5, "vestine": [{"id": "lc_da9534b0-d837-5e37-ae66-d506a2231d78", "opis": "Calculate the average rate of change over a specified interval of a function presented symbolically or in a table"}, {"id": "lc_ec373d80-fbd7-58c3-b8c2-d71abefa9039", "opis": "Estimate the average rate of change over a specified interval of a function from the function's graph"}, {"id": "lc_5409556b-2f94-54b7-8d77-4ce5d3e86e27", "opis": "Interpret, in context, the average rate of change of a function over a specified interval"}], "miskoncepcije": []}, {"id": "HSF-IF.C.7.a", "razred": "HS", "jezgro": true, "opis": "Graph linear and quadratic functions and show intercepts, maxima, and minima.", "uuid": "6ba16016-d7cc-11e8-824f-0242ac160002", "nivo": 1, "vestine": [{"id": "lc_5ee603c3-6430-5a02-92ef-bc00f7cb1a6d", "opis": "Graph linear functions from mathematical contexts, showing intercepts"}, {"id": "lc_67ef0ce9-3dbe-53c0-ac19-9baa91cba7bd", "opis": "Graph linear functions from real-world contexts, showing intercepts"}], "miskoncepcije": []}, {"id": "HSF-LE.A.1", "razred": "HS", "jezgro": false, "opis": "Distinguish between situations that can be modeled with linear functions and with exponential functions.", "uuid": "6b9c644f-d7cc-11e8-824f-0242ac160002", "nivo": 5, "vestine": [], "miskoncepcije": []}, {"id": "HSF-LE.A.1.b", "razred": "HS", "jezgro": true, "opis": "Recognize situations in which one quantity changes at a constant rate per unit interval relative to another.", "uuid": "6ba1e7bb-d7cc-11e8-824f-0242ac160002", "nivo": 5, "vestine": [{"id": "lc_646e93bc-23b5-57bc-9e03-b7ae4f4ef83c", "opis": "Describe situations where one quantity changes at a constant rate per unit interval as compared to another"}], "miskoncepcije": []}, {"id": "HSF-LE.A.2", "razred": "HS", "jezgro": true, "opis": "Construct linear and exponential functions, including arithmetic and geometric sequences, given a graph, a description of a relationship, or two input-output pairs (include reading these from a table).", "uuid": "6b9d9ca7-d7cc-11e8-824f-0242ac160002", "nivo": 6, "vestine": [{"id": "lc_35102d70-6aea-505b-85c7-fdff4ceb58af", "opis": "Construct a linear function for a mathematical context given an arithmetic sequence, a graph, a description of a relationship, or two input-output pairs (include reading these from a table)"}, {"id": "lc_0481241f-0379-5894-af6e-94c154b5c75c", "opis": "Construct a linear function for a real-world context given a graph of the relationship"}, {"id": "lc_f206886c-6628-5dbd-a241-acc362587b88", "opis": "Construct a linear function for a real-world context given an arithmetic sequence, a graph, a description of a relationship, or two input-output pairs (include reading these from a table)"}, {"id": "lc_31441479-cfd2-5fe3-8bee-9c0bfd8c6157", "opis": "Construct a linear function for a real-world context given the slope of the line and a point"}, {"id": "lc_b1c76477-8b9c-5600-a773-80d468f1828b", "opis": "Construct a linear function for a real-world context given two sets of integer coordinates"}, {"id": "lc_292473be-87e5-56b0-b12f-1c7d1f4c22f5", "opis": "Construct a linear function for a real-world context that can be modeled with a horizontal line"}, {"id": "lc_b175a42f-27b6-525a-b33a-6e518abb2c73", "opis": "Construct a linear function for a real-world context that can be modeled with a vertical line"}], "miskoncepcije": []}, {"id": "HSF-LE.B.5", "razred": "HS", "jezgro": false, "opis": "Interpret the parameters in a linear or exponential function in terms of a context.", "uuid": "6b9f97c6-d7cc-11e8-824f-0242ac160002", "nivo": 5, "vestine": [], "miskoncepcije": []}, {"id": "HSS-ID.C.7", "razred": "HS", "jezgro": false, "opis": "Interpret the slope (rate of change) and the intercept (constant term) of a linear model in the context of the data.", "uuid": "6ba08773-d7cc-11e8-824f-0242ac160002", "nivo": 5, "vestine": [], "miskoncepcije": []}], "veze": [{"od": "7.G.A.1", "ka": "8.EE.B.6", "tip": "buildsTowards"}, {"od": "7.RP.A.2", "ka": "8.EE.B.6", "tip": "buildsTowards"}, {"od": "8.G.A.5", "ka": "8.EE.B.6", "tip": "buildsTowards"}, {"od": "7.RP.A.2", "ka": "8.EE.B.5", "tip": "buildsTowards"}, {"od": "7.RP.A.2", "ka": "8.F.A.1", "tip": "buildsTowards"}, {"od": "7.RP.A.2", "ka": "8.F.A.2", "tip": "buildsTowards"}, {"od": "8.F.A.1", "ka": "8.F.A.2", "tip": "buildsTowards"}, {"od": "8.EE.B.5", "ka": "8.F.A.2", "tip": "buildsTowards"}, {"od": "8.EE.B.6", "ka": "8.F.A.2", "tip": "buildsTowards"}, {"od": "7.RP.A.2", "ka": "8.F.B.4", "tip": "buildsTowards"}, {"od": "8.F.A.3", "ka": "8.F.B.4", "tip": "buildsTowards"}, {"od": "HSF-IF.A.1", "ka": "HSF-IF.C.7.a", "tip": "buildsTowards"}, {"od": "HSF-LE.A.1", "ka": "HSF-LE.A.2", "tip": "buildsTowards"}, {"od": "8.F.B.4", "ka": "HSF-LE.A.2", "tip": "buildsTowards"}, {"od": "8.F.A.1", "ka": "8.F.A.3", "tip": "buildsTowards"}, {"od": "8.F.A.2", "ka": "8.F.A.3", "tip": "buildsTowards"}, {"od": "8.EE.B.6", "ka": "8.F.A.3", "tip": "buildsTowards"}, {"od": "8.F.A.1", "ka": "8.F.B.5", "tip": "buildsTowards"}, {"od": "8.F.A.2", "ka": "8.F.B.5", "tip": "buildsTowards"}, {"od": "8.F.A.3", "ka": "8.F.B.5", "tip": "buildsTowards"}, {"od": "8.F.B.4", "ka": "HSA-CED.A.2", "tip": "buildsTowards"}, {"od": "8.F.B.4", "ka": "HSF-BF.A.1.a", "tip": "buildsTowards"}, {"od": "8.F.B.4", "ka": "HSF-BF.A.2", "tip": "buildsTowards"}, {"od": "8.F.B.4", "ka": "HSF-IF.B.6", "tip": "buildsTowards"}, {"od": "8.F.B.4", "ka": "HSF-LE.A.1", "tip": "buildsTowards"}, {"od": "8.F.B.4", "ka": "HSF-LE.B.5", "tip": "buildsTowards"}, {"od": "8.F.B.4", "ka": "HSS-ID.C.7", "tip": "buildsTowards"}, {"od": "HSF-LE.A.1.b", "ka": "HSF-LE.A.1", "tip": "isPartOf"}]};
+const PODRAZ = '<p class="nap">Kliknite na čvor da vidite detalje. Veze izabranog čvora se podebljavaju.</p>' +
+  '<p class="nap">Strelica ide od preduslova ka sledbeniku (<i>buildsTowards</i>, Math Coherence Map). Isprekidana linija: podstandard je deo standarda.</p>' +
+  '<p class="nap">' + P.standardi.length + ' standarda · ' + P.veze.length + ' veza · ' +
+  P.standardi.reduce((a,s)=>a+s.vestine.length,0) + ' veština</p>';
+const std = Object.fromEntries(P.standardi.map(s => [s.id, s]));
+const vestina = {};
+P.standardi.forEach(s => s.vestine.forEach(v => vestina[v.id] = {...v, standard: s.id}));
+
+const BOJE = {
+  jezgro:  {background:'#1f6feb', border:'#0b4fbf', font:'#ffffff'},
+  kontekst:{background:'#eaeef2', border:'#8c959f', font:'#24292f'},
+  vestina: {background:'#fff8c5', border:'#d4a72c', font:'#3b2300'},
+};
+const SIVA = {background:'#f6f8fa', border:'#e1e4e8', font:'#c1c7cd'};
+
+function bojaCvora(id) {
+  if (vestina[id]) return BOJE.vestina;
+  return std[id].jezgro ? BOJE.jezgro : BOJE.kontekst;
+}
+function boja(c) { return {color:c, highlight:c, hover:c, inherit:false, opacity:1}; }
+function mnozina(n) { const d = n % 10, s = n % 100; return (d >= 2 && d <= 4 && !(s >= 12 && s <= 14)) ? 'veštine' : 'veština'; }
+function skrati(t, n) { return t.length > n ? t.slice(0, n - 1) + '…' : t; }
+
+const cvorovi = new vis.DataSet();
+const ivice = new vis.DataSet();
+
+function osnovniCvor(id) {
+  const b = bojaCvora(id);
+  if (vestina[id]) {
+    return { id, label: skrati(vestina[id].opis, 46), level: std[vestina[id].standard].nivo * 2 + 1,
+      shape:'box', widthConstraint:{maximum:170}, font:{size:11, color:b.font},
+      color:{background:b.background, border:b.border, highlight:{background:b.background, border:'#9a6700'}, hover:{background:b.background, border:'#9a6700'}},
+      borderWidth:1, margin:6 };
+  }
+  const s = std[id];
+  const lab = s.id + (s.vestine.length ? '\n' + s.vestine.length + ' ' + mnozina(s.vestine.length) : '');
+  return { id, label: lab, level: s.nivo * 2, shape:'box', font:{size:15, color:b.font, multi:false},
+    color:{background:b.background, border:b.border, highlight:{background:b.background, border:'#cf222e'}, hover:{background:b.background, border:'#cf222e'}},
+    borderWidth: s.jezgro ? 2 : 1, margin:10 };
+}
+function osnovnaIvica(e) {
+  const crt = e.tip === 'isPartOf' || e.tip === 'supports';
+  return { id:e.id, from:e.from, to:e.to, tip:e.tip, arrows: e.tip === 'supports' ? '' : 'to', dashes: crt,
+    width: 1.2, color:boja('#8c959f'), smooth:{type:'cubicBezier', forceDirection:'horizontal', roundness:0.45} };
+}
+
+function izgradi() {
+  const sVestinama = document.getElementById('prikaziVestine').checked;
+  cvorovi.clear(); ivice.clear();
+  P.standardi.forEach(s => cvorovi.add(osnovniCvor(s.id)));
+  P.veze.forEach((v, i) => ivice.add(osnovnaIvica({id:'e'+i, from:v.od, to:v.ka, tip:v.tip})));
+  if (sVestinama) {
+    Object.keys(vestina).forEach(id => {
+      cvorovi.add(osnovniCvor(id));
+      ivice.add(osnovnaIvica({id:'s_'+id, from:vestina[id].standard, to:id, tip:'supports'}));
+    });
+  }
+  izabrano = null;
+  document.getElementById('panel').innerHTML = PODRAZ;
+  setTimeout(() => mreza.fit({animation:false}), 50);
+}
+
+const mreza = new vis.Network(document.getElementById('platno'), {nodes:cvorovi, edges:ivice}, {
+  layout: { hierarchical: { direction:'LR', sortMethod:'directed', levelSeparation:150, nodeSpacing:62, treeSpacing:90, shakeTowards:'roots' } },
+  physics: false,
+  interaction: { hover:true, tooltipDelay:150, selectConnectedEdges:false },
+  edges: { arrows: { to: { scaleFactor:0.6 } } },
+});
+
+let izabrano = null;
+
+function istakni(id) {
+  izabrano = id;
+  const povezane = new Set(mreza.getConnectedEdges(id));
+  const susedi = new Set(mreza.getConnectedNodes(id)); susedi.add(id);
+  ivice.update(ivice.get().map(e => povezane.has(e.id)
+    ? { id:e.id, width:4.5, color:boja(e.to === id ? '#1a7f37' : '#cf222e') }
+    : { id:e.id, width:0.8, color:boja('#e4e8ec') }));
+  cvorovi.update(cvorovi.get().map(n => {
+    if (susedi.has(n.id)) { const b = bojaCvora(n.id);
+      return { id:n.id, color:{background:b.background, border: n.id === id ? '#cf222e' : b.border, highlight:{background:b.background, border:'#cf222e'}}, font:{color:b.font}, borderWidth: n.id === id ? 4 : 2 }; }
+    return { id:n.id, color:{background:SIVA.background, border:SIVA.border, highlight:{background:SIVA.background, border:SIVA.border}}, font:{color:SIVA.font}, borderWidth:1 };
+  }));
+  prikaziDetalje(id);
+}
+
+function ponisti() {
+  izabrano = null;
+  ivice.update(ivice.get().map(e => ({ id:e.id, width:1.2, color:boja('#8c959f') })));
+  cvorovi.update(cvorovi.get().map(n => { const b = bojaCvora(n.id);
+    return { id:n.id, color:{background:b.background, border:b.border, highlight:{background:b.background, border:'#cf222e'}}, font:{color:b.font}, borderWidth: (std[n.id] && std[n.id].jezgro) ? 2 : 1 }; }));
+  document.getElementById('panel').innerHTML = PODRAZ;
+}
+
+function link(id) { return '<a class="cvor" data-id="' + id + '">' + id + '</a>'; }
+function esc(t) { return String(t).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+function prikaziDetalje(id) {
+  const el = document.getElementById('panel');
+  if (vestina[id]) {
+    const v = vestina[id];
+    el.innerHTML = '<span class="znak" style="background:#fff8c5;color:#7d4e00">veština (learning component)</span>' +
+      '<h3 style="margin-top:8px">' + esc(v.opis) + '</h3>' +
+      '<h4>Podržava standard</h4>' + link(v.standard) + ' — ' + esc(skrati(std[v.standard].opis, 140)) +
+      '<h4>Identifikator</h4><div class="uuid">' + v.id.slice(3) + '</div>';
+  } else {
+    const s = std[id];
+    const pre = P.veze.filter(v => v.ka === id).map(v => v.od);
+    const posle = P.veze.filter(v => v.od === id).map(v => v.ka);
+    const lista = (a, prazno) => a.length ? '<ul>' + a.map(x => '<li>' + x + '</li>').join('') + '</ul>' : '<span class="nap">' + prazno + '</span>';
+    el.innerHTML =
+      '<span class="znak' + (s.jezgro ? '' : ' siv') + '">' + (s.jezgro ? 'jezgro linearnih funkcija' : 'kontekst') + '</span>' +
+      '<span class="znak siv">razred ' + s.razred + '</span>' +
+      '<h3 style="margin-top:8px">' + s.id + '</h3>' +
+      '<div>' + esc(s.opis) + '</div>' +
+      '<h4>Preduslovi (' + pre.length + ') <span style="color:#1a7f37">●</span></h4>' +
+      lista(pre.map(x => link(x) + ' <span class="nap">' + esc(skrati(std[x].opis, 70)) + '</span>'), 'nema u Coherence Map') +
+      '<h4>Vodi ka (' + posle.length + ') <span style="color:#cf222e">●</span></h4>' +
+      lista(posle.map(x => link(x) + ' <span class="nap">' + esc(skrati(std[x].opis, 70)) + '</span>'), 'nije preuzeto ili nema') +
+      '<h4>Veštine (' + s.vestine.length + ')</h4>' +
+      lista(s.vestine.map(v => esc(v.opis)), 'nisu preuzete za ovaj standard') +
+      (s.miskoncepcije.length ? '<h4>Miskoncepcije (' + s.miskoncepcije.length + ')</h4>' +
+        lista(s.miskoncepcije.map(m => esc(m.opis)), '') +
+        '<p class="nap">Izvor: Eedi, povezano sa standardom po sličnosti teksta, pa proveriti ručno.</p>' : '') +
+      '<h4>CASE UUID</h4><div class="uuid">' + s.uuid + '</div>';
+  }
+  el.querySelectorAll('a.cvor').forEach(a => a.onclick = () => {
+    const t = a.dataset.id; mreza.selectNodes([t]); istakni(t); mreza.focus(t, {scale:1.0, animation:{duration:400}});
+  });
+  el.scrollTop = 0;
+}
+
+mreza.on('click', p => { if (p.nodes.length) istakni(p.nodes[0]); else ponisti(); });
+document.getElementById('prikaziVestine').onchange = izgradi;
+document.getElementById('uklopi').onclick = () => mreza.fit({animation:{duration:400}});
+izgradi();
+</script>
+</body></html>
